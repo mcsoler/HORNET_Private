@@ -1,0 +1,265 @@
+{
+  "app": {
+    "checkForUpdates": true,
+    "shutdown": {
+      "stopGracePeriod": "5m",
+      "log": {
+	"enabled": true,
+	"filePath": "shutdown.log"
+      }
+    }
+  },
+  "logger": {
+    "level": "info",
+    "disableCaller": true,
+    "disableStacktrace": false,
+    "stacktraceLevel": "panic",
+    "encoding": "console",
+    "encodingConfig": {
+      "timeEncoder": "rfc3339"
+    },
+    "outputPaths": ["stdout"],
+    "disableEvents": true
+  },
+  "node": {
+    "profile": "auto"
+    "alias": "HORNET private-tangle node"
+  },
+  "protocol": {
+    "targetNetworkName": "private_tangle1",
+    "milestonePublicKeyCount": 2,
+    "baseToken": {
+      "name": "TestCoin",
+      "tickerSymbol": "TEST",
+      "unit": "TEST",
+      "subunit": "testies",
+      "decimals": 6,
+      "useMetricPrefix": false
+    },
+    "publicKeyRanges": [
+      {
+        "key": "ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c",
+        "start": 0,
+        "end": 0
+      },
+      {
+        "key": "f6752f5f46a53364e2ee9c4d662d762a81efd51010282a75cd6bd03f28ef349c",
+        "start": 0,
+        "end": 0
+      }
+    ]
+  },
+  "db": {
+    "engine": "rocksdb",
+    "path": "privatedb",
+    "autoRevalidation": false,
+    "checkLedgerStateOnStartup": false
+  },
+  "p2p": {
+    "bindMultiAddresses": [
+      "/ip4/0.0.0.0/tcp/15600",
+      "/ip6/::/tcp/15600"
+    ],
+    "connectionManager": {
+      "highWatermark": 10,
+      "lowWatermark": 5
+    },
+    "identityPrivateKey": "",
+    "db": {
+      "path": "p2pstore"
+    },
+    "reconnectInterval": "30s",
+    "gossip": {
+      "unknownPeersLimit": 4,
+      "streamReadTimeout": "1m",
+      "streamWriteTimeout": "10s"
+    }
+  },
+  "pruning": {
+    "milestones": {
+      "enabled": true,
+      "maxMilestonesToKeep": 5000
+    },
+    "size": {
+      "enabled": true,
+      "targetSize": "1GB",
+      "thresholdPercentage": 5.0,
+      "cooldownTime": "60s"
+    },
+    "pruneReceipts": false
+  },
+  {
+    "profiling": {
+      "enabled": false,
+      "bindAddress": "localhost:6060"
+    }
+  },
+  "snapshots": {
+    "enabled": true,
+    "depth": 50,
+    "interval": 200,
+    "fullPath": "snapshots/full_snapshot.bin",
+    "deltaPath": "snapshots/delta_snapshot.bin",
+    "deltaSizeThresholdPercentage": 50,
+    "deltaSizeThresholdMinSize": "50M",
+    "downloadURLs": [
+      {
+	"full": "https://files.shimmer.network/snapshots/full_snapshot.bin",
+        "delta": "https://files.shimmer.network/snapshots/delta_snapshot.bin"
+      }
+    ]
+  },
+  "restAPI": {
+    "enabled": true,
+    "bindAddress": "0.0.0.0:14265",
+    "publicRoutes": [
+      "/health",
+      "/api/routes",
+      "/api/core/v2/info",
+      "/api/core/v2/tips",
+      "/api/core/v2/blocks*",
+      "/api/core/v2/transactions*",
+      "/api/core/v2/milestones*",
+      "/api/core/v2/outputs*",
+      "/api/core/v2/treasury",
+      "/api/core/v2/receipts*",
+      "/api/core/v2/peers",
+      "/api/debug/v1/*",
+      "/api/indexer/v1/*",
+      "/api/mqtt/v1",
+      "/api/participation/v1/events*",
+      "/api/participation/v1/outputs*",
+      "/api/participation/v1/addresses*",
+      "/api/core/v0/*",
+      "/api/core/v1/*"
+    ],
+    "protectedRoutes": [
+        "/api/*"
+    ],
+    "useGZIP": true,
+    "debugRequestLoggerEnabled": false,
+    "jwtAuth": {
+      "salt": "HORNET"
+    },
+    "pow": {
+      "enabled": true,
+      "refreshTipsInterval": "5s",
+      "workerCount": 1
+    },
+    "limits": {
+      "maxBodyLength": "1M",
+      "maxResults": 1000
+    }
+  },
+  {
+    "requests": {
+      "discardOlderThan": "15s",
+      "pendingReEnqueueInterval": "5s"
+    }
+  },
+  "warpsync": {
+    "enabled": true,
+    "advancementRange": 150
+  },
+  "tangle": {
+    "milestoneTimeout": "30s",
+    "maxDeltaBlockYoungestConeRootIndexToCMI": 8,
+    "maxDeltaBlockOldestConeRootIndexToCMI": 13,
+    "whiteFlagParentsSolidTimeout": "2s"
+  },
+  "prometheus": {
+    "enabled": false,
+    "bindAddress": "0.0.0.0:9311",
+    "fileServiceDiscovery": {
+      "enabled": false,
+      "path": "target.json",
+      "target": "0.0.0.0:9311"
+    },
+    "databaseMetrics": true,
+    "nodeMetrics": true,
+    "gossipMetrics": true,
+    "cachesMetrics": true,
+    "restAPIMetrics": true,
+    "inxMetrics": true,
+    "migrationMetrics": true,
+    "debugMetrics": false,
+    "goMetrics": false,
+    "processMetrics": false,
+    "promhttpMetrics": false
+  },
+  "prometheus": {
+    "enabled": false,
+    "bindAddress": "0.0.0.0:9312",
+    "fileServiceDiscovery": {
+      "enabled": false,
+      "path": "target.json",
+      "target": "0.0.0.0:9312"
+    },
+    "databaseMetrics": true,
+    "nodeMetrics": true,
+    "gossipMetrics": true,
+    "cachesMetrics": true,
+    "restAPIMetrics": true,
+    "inxMetrics": true,
+    "migrationMetrics": true,
+    "debugMetrics": false,
+    "goMetrics": false,
+    "processMetrics": false,
+    "promhttpMetrics": false
+  },
+  "prometheus": {
+    "enabled": false,
+    "bindAddress": "0.0.0.0:9313",
+    "fileServiceDiscovery": {
+      "enabled": false,
+      "path": "target.json",
+      "target": "0.0.0.0:9313"
+    },
+    "databaseMetrics": true,
+    "nodeMetrics": true,
+    "gossipMetrics": true,
+    "cachesMetrics": true,
+    "restAPIMetrics": true,
+    "inxMetrics": true,
+    "migrationMetrics": true,
+    "debugMetrics": false,
+    "goMetrics": false,
+    "processMetrics": false,
+    "promhttpMetrics": false
+  },
+  "prometheus": {
+    "enabled": false,
+    "bindAddress": "0.0.0.0:9314",
+    "fileServiceDiscovery": {
+      "enabled": false,
+      "path": "target.json",
+      "target": "0.0.0.0:9314"
+    },
+    "databaseMetrics": true,
+    "nodeMetrics": true,
+    "gossipMetrics": true,
+    "cachesMetrics": true,
+    "restAPIMetrics": true,
+    "inxMetrics": true,
+    "migrationMetrics": true,
+    "debugMetrics": false,
+    "goMetrics": false,
+    "processMetrics": false,
+    "promhttpMetrics": false
+  },
+  {
+  "tipsel": {
+    "enabled": true,
+    "nonLazy": {
+      "retentionRulesTipsLimit": 100,
+      "maxReferencedTipAge": "3s",
+      "maxChildren": 30
+    },
+    "semiLazy": {
+      "retentionRulesTipsLimit": 20,
+      "maxReferencedTipAge": "3s",
+      "maxChildren": 2
+    }
+  }
+}
+
